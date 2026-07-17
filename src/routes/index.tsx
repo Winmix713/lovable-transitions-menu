@@ -1,57 +1,70 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AnimatedMenu, type DropdownOrigin } from "@/components/AnimatedMenu";
+import { Pencil, Copy, Archive, Trash2 } from "lucide-react";
+import { AnimatedMenu } from "@/components/AnimatedMenu";
 
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "Animated Menu — Headless UI × transitions.dev" },
+      { title: "Dropdown Menu — Headless UI × transitions.dev" },
       {
         name: "description",
         content:
-          "Headless UI Menu with the transitions.dev dropdown animation: origin-aware growth and a full closing animation before unmount.",
+          "Dark, polished dropdown menu built with Headless UI and the transitions.dev origin-aware animation.",
       },
     ],
   }),
 });
 
-const ORIGINS: DropdownOrigin[] = [
-  "top-left",
-  "top-center",
-  "top-right",
-  "bottom-left",
-  "bottom-center",
-  "bottom-right",
-];
-
 function Index() {
   return (
-    <main className="min-h-screen bg-background px-6 py-16">
-      <div className="mx-auto max-w-3xl">
-        <h1 className="text-2xl font-semibold tracking-tight">Animated Menu</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Headless UI Menu + transitions.dev dropdown animation. Click any trigger — the panel
-          grows from the origin, and closing plays fully before unmount.
-        </p>
+    <main className="min-h-screen bg-black text-white">
+      <div className="mx-auto max-w-5xl px-6 pt-24 pb-16">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[#0a0a0a]">
+          {/* aurora glow */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -left-24 top-1/2 h-[420px] w-[420px] -translate-y-1/2 rounded-full opacity-70 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(closest-side, rgba(56,189,248,0.18), rgba(16,185,129,0.10) 55%, transparent 75%)",
+            }}
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute right-[-10%] top-[-20%] h-[380px] w-[380px] rounded-full opacity-60 blur-3xl"
+            style={{
+              background:
+                "radial-gradient(closest-side, rgba(139,92,246,0.14), transparent 70%)",
+            }}
+          />
 
-        <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3">
-          {ORIGINS.map((origin) => (
-            <div key={origin} className="flex flex-col items-start gap-2">
-              <span className="text-xs uppercase tracking-wide text-muted-foreground">
-                {origin}
-              </span>
+          <div className="relative flex min-h-[520px] items-center justify-center px-6 py-24">
+            <div className="flex flex-col items-end gap-3">
               <AnimatedMenu
-                label={origin}
-                origin={origin}
+                label="Options"
+                origin="top-right"
+                align="end"
                 items={[
-                  { key: "profile", label: "Profile", onSelect: () => {} },
-                  { key: "settings", label: "Settings", onSelect: () => {} },
-                  { key: "docs", label: "Docs", href: "#" },
-                  { key: "signout", label: "Sign out", onSelect: () => {} },
+                  { key: "edit", label: "Edit", icon: Pencil, onSelect: () => {} },
+                  {
+                    key: "duplicate",
+                    label: "Duplicate",
+                    icon: Copy,
+                    shortcut: "⌘D",
+                    onSelect: () => {},
+                  },
+                  { type: "separator", key: "sep-1" },
+                  { key: "archive", label: "Archive", icon: Archive, onSelect: () => {} },
+                  { key: "delete", label: "Delete", icon: Trash2, onSelect: () => {} },
                 ]}
               />
             </div>
-          ))}
+          </div>
+
+          <div className="relative border-t border-white/10 px-8 py-6">
+            <h2 className="text-2xl font-semibold tracking-tight">Dropdown Menu</h2>
+          </div>
         </div>
       </div>
     </main>
