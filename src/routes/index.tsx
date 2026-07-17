@@ -1,24 +1,59 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AnimatedMenu, type DropdownOrigin } from "@/components/AnimatedMenu";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: "Animated Menu — Headless UI × transitions.dev" },
+      {
+        name: "description",
+        content:
+          "Headless UI Menu with the transitions.dev dropdown animation: origin-aware growth and a full closing animation before unmount.",
+      },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+const ORIGINS: DropdownOrigin[] = [
+  "top-left",
+  "top-center",
+  "top-right",
+  "bottom-left",
+  "bottom-center",
+  "bottom-right",
+];
+
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="min-h-screen bg-background px-6 py-16">
+      <div className="mx-auto max-w-3xl">
+        <h1 className="text-2xl font-semibold tracking-tight">Animated Menu</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Headless UI Menu + transitions.dev dropdown animation. Click any trigger — the panel
+          grows from the origin, and closing plays fully before unmount.
+        </p>
+
+        <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3">
+          {ORIGINS.map((origin) => (
+            <div key={origin} className="flex flex-col items-start gap-2">
+              <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                {origin}
+              </span>
+              <AnimatedMenu
+                label={origin}
+                origin={origin}
+                items={[
+                  { key: "profile", label: "Profile", onSelect: () => {} },
+                  { key: "settings", label: "Settings", onSelect: () => {} },
+                  { key: "docs", label: "Docs", href: "#" },
+                  { key: "signout", label: "Sign out", onSelect: () => {} },
+                ]}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </main>
   );
 }
